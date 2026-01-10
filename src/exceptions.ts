@@ -24,6 +24,13 @@ export class UserAlreadyExistsError extends BaseError {
 	}
 }
 
+export class UserNotFoundError extends BaseError {
+	constructor(message: string = "user not found", statusCode: ContentfulStatusCode = 404) {
+		super(message, statusCode);
+		this.name = "UserNotFoundError";
+	}
+}
+
 export class RegistrationError extends BaseError {
 	constructor(message: string = "registration failed", statusCode: ContentfulStatusCode = 500) {
 		super(message, statusCode);

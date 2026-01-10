@@ -17,6 +17,7 @@ app.onError((err, c) => {
 		return c.json(err.toJSON(), err.statusCode)
 	}
 
+	console.error(err)
 	return c.json({ message: 'Internal Server Error' }, 500)
 })
 export default app
