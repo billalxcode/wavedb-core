@@ -9,7 +9,7 @@ export async function registerController(c: Context) {
 	const bodyValidated = await registerValidation(body)
 
 	if (!bodyValidated.success) {
-		throw new ValidationError(bodyValidated.error.message, "validation failed", 400)
+		throw new ValidationError(bodyValidated.error.issues, "validation failed", 400)
 	}
 
 	const authService = new AuthService()
@@ -26,7 +26,7 @@ export async function loginController(c: Context) {
 	const bodyValidated = await loginValidation(body)
 
 	if (!bodyValidated.success) {
-		throw new ValidationError(bodyValidated.error.message, "validation failed", 400)
+		throw new ValidationError(bodyValidated.error.issues, "validation failed", 400)
 	}
 
 	const authService = new AuthService()

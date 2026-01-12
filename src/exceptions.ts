@@ -1,4 +1,5 @@
-import { ContentfulStatusCode } from "hono/utils/http-status"
+import type { ContentfulStatusCode } from "hono/utils/http-status"
+import type { z } from "zod";
 
 export class BaseError extends Error {
 	public readonly statusCode: ContentfulStatusCode;
@@ -39,9 +40,9 @@ export class RegistrationError extends BaseError {
 }
 
 export class ValidationError extends BaseError {
-	public readonly reasons: any;
+	public readonly reasons: z.core.$ZodIssue[];
 
-	constructor(reasons: any, message: string = "validation error", statusCode: ContentfulStatusCode = 400) {
+	constructor(reasons: z.core.$ZodIssue[], message: string = "validation error", statusCode: ContentfulStatusCode = 400) {
 		super(message, statusCode);
 		this.name = "ValidationError";
 		this.reasons = reasons;
@@ -50,7 +51,10 @@ export class ValidationError extends BaseError {
 	toJSON() {
 		return {
 			...super.toJSON(),
-			reasons: this.reasons,
+			reasons: this.reasons.map((issue) => ({
+				name: issue.path.join("."),
+				message: issue.message
+			})),
 		}
 	}
 }

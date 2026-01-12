@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
+import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
-import { UserAlreadyExistsError } from './exceptions'
+import { UserAlreadyExistsError, ValidationError } from './exceptions'
 import authRouter from './routers/auth'
 import projectRouter from './routers/project'
 
@@ -19,6 +20,13 @@ app.onError((err, c) => {
 		return c.json(err.toJSON(), err.statusCode)
 	}
 
+	if (err instanceof ValidationError) {
+		return c.json(err.toJSON(), err.statusCode)
+	}
+
+	if (err instanceof HTTPException) {
+		return c.json({ message: err.message }, err.status)
+	}
 	console.error(err)
 	return c.json({ message: 'Internal Server Error' }, 500)
 })
