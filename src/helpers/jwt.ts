@@ -7,6 +7,7 @@ export async function generateJWT(userId: string): Promise<string> {
 		sub: userId, // Subject (user ID)
 		exp: Math.floor(Date.now() / 1000) + JWT_EXPIRATION, // Expiration time
 		iat: Math.floor(Date.now() / 1000), // Issued at
+		iss: "wavedb"
 	}
 	return await sign(payload, JWT_SECRET, "HS256")
 }

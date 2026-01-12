@@ -5,8 +5,6 @@ import type { LoginValidationType, RegisterValidationType } from "@/validations/
 
 export default class AuthService {
 	async comparePassword(password: string, hash: string): Promise<boolean> {
-		console.log("Password", password)
-		console.log("Hash", hash)
 		return await Bun.password.verify(password, hash, "bcrypt")
 	}
 
