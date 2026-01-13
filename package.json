@@ -1,5 +1,12 @@
 {
   "name": "wavedb-core",
+  "author": {
+	"name": "Billal Fauzan",
+	"email": "billal.xcode@gmail.com"
+  },
+  "version": "0.0.1",
+  "description": "WaveDB Core - The core API for WaveDB - an open-source metrics evaluation database",
+  "license": "MIT",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
 	"migrate": "prisma migrate dev && prisma generate"
