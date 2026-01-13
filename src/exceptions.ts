@@ -58,3 +58,10 @@ export class ValidationError extends BaseError {
 		}
 	}
 }
+
+export class MetricWriteError extends BaseError {
+	constructor(message: string = "failed to write metric", statusCode: ContentfulStatusCode = 500) {
+		super(message, statusCode);
+		this.name = "MetricWriteError";
+	}
+}

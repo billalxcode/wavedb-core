@@ -1,4 +1,4 @@
-import { z } from "zod"
+import z from "zod"
 
 export const createProjectValidationSchema = z.object({
 	name: z.string().min(3, "project name must be at least 3 characters long"),
