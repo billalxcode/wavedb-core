@@ -2,13 +2,15 @@ import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
 import { UserAlreadyExistsError, ValidationError } from './exceptions'
-import authRouter from './routers/auth'
-import projectRouter from './routers/project'
+import authRouter from './routers/auth.router'
+import projectRouter from './routers/project.router'
+import userRouter from './routers/user.router'
 
 const app = new Hono()
 
 app.use(logger())
 app.route("/auth", authRouter)
+app.route("/user", userRouter)
 app.route("/project", projectRouter)
 
 app.get('/', (c) => {
