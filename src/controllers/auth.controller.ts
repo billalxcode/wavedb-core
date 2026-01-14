@@ -31,15 +31,11 @@ export async function loginController(c: Context) {
 
 	const authService = new AuthService()
 	const user = await authService.loginUser(bodyValidated.data)
-	const access_token = await authService.generateAccessToken(user.id)
 
 	return c.json({
 		message: "user logged in successfully",
 		data: {
-			id: user.id,
-			name: user.name,
-			email: user.email,
-			access_token: access_token
+			access_token: user.token
 		}
 	})
 }
