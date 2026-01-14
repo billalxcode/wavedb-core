@@ -1,7 +1,8 @@
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
 import ProjectService from "@/services/project.service";
-import type { ProjectVariables } from "@/types/variables";
+import { RunnerService } from "@/services/runner.service";
+import type { ProjectVariables, RunnerVariables } from "@/types/variables";
 
 export const validProjectIdMiddleware = async (c: Context<{ Variables: ProjectVariables }>, next: () => Promise<void>) => {
 	const projectId = c.req.param("projectId")
@@ -17,5 +18,23 @@ export const validProjectIdMiddleware = async (c: Context<{ Variables: ProjectVa
 	}
 
 	c.set("projectId", projectId)
+	await next()
+}
+
+export const validRunnerIdMiddleware = async (c: Context<{ Variables: RunnerVariables}>, next: () => Promise<void>) => {
+	const runnerId = c.req.param("runnerId")
+	if (typeof runnerId !== "string" || runnerId.length === 0) {
+		throw new HTTPException(400, { message: "invalid runnerId parameter" })
+	}
+
+	const projectId = c.get("projectId") as string
+
+	const runnerService = new RunnerService()
+	const runner = await runnerService.getRunnerById(runnerId, projectId)
+	if (!runner) {
+		throw new HTTPException(404, { message: "runner not found" })
+	}
+
+	c.set("runnerId", runnerId)
 	await next()
 }
